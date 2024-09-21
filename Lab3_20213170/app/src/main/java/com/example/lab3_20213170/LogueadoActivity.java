@@ -2,7 +2,9 @@ package com.example.lab3_20213170;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +14,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.Locale;
+
 public class LogueadoActivity extends AppCompatActivity {
+    private CountDownTimer countDownTimer;
+    private boolean isTimerRunning = false;
+    private long tiempoRestanteMS = 10000;
+    ImageButton playButton;
+    TextView timerTextView, textDescanso;
+    private CountDownTimer descansoTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +75,104 @@ public class LogueadoActivity extends AppCompatActivity {
             userImage.setImageResource(R.drawable.man);
         }
 
+        //Logica de temporizador:
+
+        playButton = findViewById(R.id.playButton);
+        timerTextView = findViewById(R.id.timerTextView);
+        textDescanso = findViewById(R.id.textDescanso);
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (countDownTimer != null){
+                    countDownTimer.cancel(); //Si esta ejecutando, se pausa
+                }
+                resetTimer();
+                startTimer();
+            }
+        });
+        updateCountDownText();
+    }
+
+    // Método para iniciar el temporizador
+    private void startTimer() {
+        countDownTimer = new CountDownTimer(tiempoRestanteMS, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tiempoRestanteMS = millisUntilFinished;
+                updateCountDownText(); // Actualizacion del texto
+            }
+
+            @Override
+            public void onFinish() {
+
+                //Se define si se muestra el dialog o no si y solo si el usuario no tiene pendientes extras
+
+                
+
+                new MaterialAlertDialogBuilder(LogueadoActivity.this)
+                        .setTitle("¡Felicidades!")
+                        .setMessage("Empezó el tiempo de descanso")
+                        .setPositiveButton("Entendido", (dialog, which) -> {
+                            // Acción al hacer clic en el botón, solo cerrar el diálogo
+                            dialog.dismiss();
+                        })
+                        .show();
+
+                //Luego del Alert Dialog realizamos el flujo de temporizador de 5 minutos
+                textDescanso.setText("En descanso");
+                iniciarDescanso();
 
 
 
+            }
+        }.start();
 
+        playButton.setImageResource(R.drawable.baseline_restart_alt_24); // Cambia a icono de reiniciar durante la ejecución
+    }
+
+    //Método de iniciar Descanso
+
+    private void iniciarDescanso(){
+
+        descansoTimer = new CountDownTimer(10*1000,1000) {
+            @Override
+            public void onTick(long l) {
+                // Actualiza el texto
+                long minutosDescanso = l / 60000;
+                long segundosDescanso = (l % 60000) / 1000;
+                timerTextView.setText(String.format(Locale.getDefault(), "%02d:%02d", minutosDescanso, segundosDescanso)); //Formato para la vista lab
+            }
+
+            @Override
+            public void onFinish() {
+                // Aquí puedes realizar alguna acción cuando termine el temporizador de descanso
+                new MaterialAlertDialogBuilder(LogueadoActivity.this)
+                        .setTitle("¡Descanso terminado!")
+                        .setMessage("Es hora de volver al trabajo.")
+                        .setPositiveButton("Entendido", (dialog, which) -> dialog.dismiss())
+                        .show();
+
+            }
+        }.start();
 
     }
+
+    // Método para reiniciar el temporizador a 25 minutos
+    private void resetTimer() {
+        tiempoRestanteMS = 10000; // Reiniciar a 25 minutos
+        updateCountDownText();
+    }
+
+    // Método para actualizar el texto del temporizador
+    private void updateCountDownText() {
+        int minutos = (int) (tiempoRestanteMS / 1000) / 60;
+        int segundos = (int) (tiempoRestanteMS / 1000) % 60;
+
+        String timeFormatted = String.format("%02d:%02d", minutos, segundos); //Le damos el formato del lab
+        timerTextView.setText(timeFormatted);
+    }
+
+
+
 }

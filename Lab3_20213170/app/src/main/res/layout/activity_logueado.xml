@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context="com.example.lab3_20213170.LogueadoActivity">
 
     <LinearLayout
@@ -90,11 +91,33 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/textDescanso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descanso: 05:00"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"/>
 
+    <TextView
+        android:id="@+id/timerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25:00"
+        android:textSize="60sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"/>
 
-
-
-
-
+    <ImageButton
+        android:id="@+id/playButton"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:background="@drawable/button_background"
+        android:src="@drawable/baseline_play_arrow_24"
+        android:padding="16dp"
+        android:scaleType="centerInside"/>
 
 </LinearLayout>
