@@ -33,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LogueadoActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private boolean isTimerRunning = false;
-    private long tiempoRestanteMS = 25*60*1000;
+    private long tiempoRestanteMS = 1*10*1000;
     ImageButton playButton;
     TextView timerTextView, textDescanso;
     private CountDownTimer descansoTimer;
@@ -206,7 +206,7 @@ public class LogueadoActivity extends AppCompatActivity {
 
     private void iniciarDescanso(){
 
-        descansoTimer = new CountDownTimer(5*60*1000,1000) {
+        descansoTimer = new CountDownTimer(1*10*1000,1000) {
             @Override
             public void onTick(long l) {
                 // Actualiza el texto
@@ -220,6 +220,7 @@ public class LogueadoActivity extends AppCompatActivity {
 
 
                 //Solo cuando no se desloguee sí muestra el Dialog para que no ocurra un bug
+                textDescanso.setText("Descanso 05:00");
 
                 if(!isLoggedOut){
                     // Aquí puedes realizar alguna acción cuando termine el temporizador de descanso
@@ -238,7 +239,7 @@ public class LogueadoActivity extends AppCompatActivity {
 
     // Método para reiniciar el temporizador a 25 minutos
     private void resetTimer() {
-        tiempoRestanteMS = 25*60*1000; // Reiniciar a 25 minutos
+        tiempoRestanteMS = 1*10*1000; // Reiniciar a 25 minutos
         updateCountDownText();
     }
 
