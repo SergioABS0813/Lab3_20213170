@@ -37,6 +37,7 @@ public class TareasActivity extends AppCompatActivity {
     private ImageView back;
     private int positionId;
     private int idTarea;
+    ImageView logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class TareasActivity extends AppCompatActivity {
         cambiarEstadoButton = findViewById(R.id.cambiarEstadoButton);
         tareasUsuarioName = findViewById(R.id.tareasUsuarioName);
         back = findViewById(R.id.back);
+        logout = findViewById(R.id.logout);
 
         Intent intent = getIntent();
         ArrayList<String> tareas = intent.getStringArrayListExtra("tareas");
@@ -96,7 +98,11 @@ public class TareasActivity extends AppCompatActivity {
                     public void onResponse(Call<TodoResponse> call, Response<TodoResponse> response) {
                         if (response.isSuccessful()) {
                             // Mostrar mensaje de éxito
-                            Toast.makeText(TareasActivity.this, "Estado de tarea actualizado", Toast.LENGTH_SHORT).show();
+                            if(isCompleted){
+                                Toast.makeText(TareasActivity.this, "Cambió realizado a la tarea: No completada", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(TareasActivity.this, "Cambió realizado a la tarea: Completada", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             // Mostrar mensaje de error
                             Toast.makeText(TareasActivity.this, "Error al actualizar el estado", Toast.LENGTH_SHORT).show();
@@ -120,6 +126,25 @@ public class TareasActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                        .edit()
+                        .putBoolean("isLoggedOut", true)
+                        .apply();
+                // Crear un intent para ir al MainActivity
+                Intent intent = new Intent(TareasActivity.this, MainActivity.class);
+                // Limpiar la pila de actividades para que el usuario no pueda regresar presionando "back"
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                // Iniciar MainActivity
+                startActivity(intent);
+                // Finalizar la actividad actual para que no se quede en segundo plano
+                finish();
+
             }
         });
 

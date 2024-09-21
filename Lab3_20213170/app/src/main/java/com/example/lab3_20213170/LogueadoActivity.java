@@ -33,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LogueadoActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private boolean isTimerRunning = false;
-    private long tiempoRestanteMS = 25*60*1000;
+    private long tiempoRestanteMS = 1*10*1000;
     ImageButton playButton;
     TextView timerTextView, textDescanso;
     private CountDownTimer descansoTimer;
@@ -56,6 +56,10 @@ public class LogueadoActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Cancelar el CountDownTimer si está en ejecución
+                if (countDownTimer != null) {
+                    countDownTimer.cancel();
+                }
                 // Redirigir al MainActivity cuando se hace clic en logout
                 Intent intent = new Intent(LogueadoActivity.this, MainActivity.class);
                 // Opción adicional para cerrar la actividad actual
@@ -198,7 +202,7 @@ public class LogueadoActivity extends AppCompatActivity {
 
     private void iniciarDescanso(){
 
-        descansoTimer = new CountDownTimer(5*60*1000,1000) {
+        descansoTimer = new CountDownTimer(1*10*1000,1000) {
             @Override
             public void onTick(long l) {
                 // Actualiza el texto
@@ -209,12 +213,20 @@ public class LogueadoActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                // Aquí puedes realizar alguna acción cuando termine el temporizador de descanso
-                new MaterialAlertDialogBuilder(LogueadoActivity.this)
-                        .setTitle("Atención")
-                        .setMessage("Terminó el tiempo de descanso. Dale al botón de reinicio para empezar otro ciclo")
-                        .setPositiveButton("Entendido", (dialog, which) -> dialog.dismiss())
-                        .show();
+                boolean isLoggedOut = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                        .getBoolean("isLoggedOut", false);
+
+                //Solo cuando no se desloguee sí muestra el Dialog para que no ocurra un bug
+
+                if(!isLoggedOut){
+                    // Aquí puedes realizar alguna acción cuando termine el temporizador de descanso
+                    new MaterialAlertDialogBuilder(LogueadoActivity.this)
+                            .setTitle("Atención")
+                            .setMessage("Terminó el tiempo de descanso. Dale al botón de reinicio para empezar otro ciclo")
+                            .setPositiveButton("Entendido", (dialog, which) -> dialog.dismiss())
+                            .show();
+
+                }
 
             }
         }.start();
@@ -223,7 +235,7 @@ public class LogueadoActivity extends AppCompatActivity {
 
     // Método para reiniciar el temporizador a 25 minutos
     private void resetTimer() {
-        tiempoRestanteMS = 25*60*1000; // Reiniciar a 25 minutos
+        tiempoRestanteMS = 1*10*1000; // Reiniciar a 25 minutos
         updateCountDownText();
     }
 
