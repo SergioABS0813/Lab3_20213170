@@ -2,6 +2,7 @@ package com.example.lab3_20213170;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,21 @@ public class LogueadoActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        //Opciones
+        ImageView logout = findViewById(R.id.logout);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Redirigir al MainActivity cuando se hace clic en logout
+                Intent intent = new Intent(LogueadoActivity.this, MainActivity.class);
+                // Opción adicional para cerrar la actividad actual
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Opcional, limpia la pila de actividades
+                startActivity(intent);
+                finish(); // Finaliza la actividad actual para que no se pueda regresar a ella
+            }
         });
 
         // Recibir los datos enviados desde MainActivity
