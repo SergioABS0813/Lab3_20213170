@@ -33,11 +33,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LogueadoActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private boolean isTimerRunning = false;
-    private long tiempoRestanteMS = 1*10*1000;
+    private long tiempoRestanteMS = 25*60*1000;
     ImageButton playButton;
     TextView timerTextView, textDescanso;
     private CountDownTimer descansoTimer;
     String firstName;
+    boolean isLoggedOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,9 @@ public class LogueadoActivity extends AppCompatActivity {
         String gender = intent.getStringExtra("gender");
         String refreshToken = intent.getStringExtra("refreshToken");
         int idUser = intent.getIntExtra("idUser", 1);
+
+        isLoggedOut = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                .getBoolean("isLoggedOut", false);
 
         TextView userNameApellidotxt = findViewById(R.id.userNameApellido);
         TextView userEmailtxt = findViewById(R.id.userEmail);
@@ -202,7 +206,7 @@ public class LogueadoActivity extends AppCompatActivity {
 
     private void iniciarDescanso(){
 
-        descansoTimer = new CountDownTimer(1*10*1000,1000) {
+        descansoTimer = new CountDownTimer(5*60*1000,1000) {
             @Override
             public void onTick(long l) {
                 // Actualiza el texto
@@ -213,8 +217,7 @@ public class LogueadoActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                boolean isLoggedOut = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-                        .getBoolean("isLoggedOut", false);
+
 
                 //Solo cuando no se desloguee sí muestra el Dialog para que no ocurra un bug
 
@@ -235,7 +238,7 @@ public class LogueadoActivity extends AppCompatActivity {
 
     // Método para reiniciar el temporizador a 25 minutos
     private void resetTimer() {
-        tiempoRestanteMS = 1*10*1000; // Reiniciar a 25 minutos
+        tiempoRestanteMS = 25*60*1000; // Reiniciar a 25 minutos
         updateCountDownText();
     }
 

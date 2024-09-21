@@ -125,6 +125,10 @@ public class TareasActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                        .edit()
+                        .putBoolean("isLoggedOut", false)
+                        .apply();
                 finish();
             }
         });
