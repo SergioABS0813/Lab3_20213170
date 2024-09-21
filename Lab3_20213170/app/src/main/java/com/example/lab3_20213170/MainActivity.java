@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                             String lastNameLogueado = user.getLastName();
                             String token = user.getToken(); //La API nos devuelve el token
                             String refreshToken = user.getRefreshToken();
+                            int idUser = user.getId();
 
                             //Al estar logueados abrimos nueva activity
                             Intent intent = new Intent(MainActivity.this, LogueadoActivity.class);
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                             intent.putExtra("lastName", lastNameLogueado);
                             intent.putExtra("gender", genderLogueado);
                             intent.putExtra("refreshToken", refreshToken);
+                            intent.putExtra("idUser", idUser);
                             startActivity(intent);
                             Toast.makeText(MainActivity.this, "Bienvenido", Toast.LENGTH_SHORT).show();
                         } else{
