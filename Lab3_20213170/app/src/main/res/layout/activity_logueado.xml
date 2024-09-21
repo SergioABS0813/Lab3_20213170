@@ -8,7 +8,72 @@
     android:orientation="vertical"
     tools:context="com.example.lab3_20213170.LogueadoActivity">
 
-    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        
+
+    </LinearLayout>
+
+    <!-- CardView para la tarjeta de usuario -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/userCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/white">
+
+        <!-- Contenedor interno de la tarjeta -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <!-- Icono del usuario -->
+            <ImageView
+                android:id="@+id/userImage"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/man"
+                android:layout_gravity="center_vertical"/>
+
+            <!-- Información del usuario (nombre y correo) -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+
+                <!-- Nombre del usuario -->
+                <TextView
+                    android:id="@+id/userNameApellido"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Emily Johnson"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
+
+                <!-- Correo del usuario -->
+                <TextView
+                    android:id="@+id/userEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="emily.johnson@x.dummyjson.com"
+                    android:textSize="14sp"
+                    android:textColor="#666666" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 
 

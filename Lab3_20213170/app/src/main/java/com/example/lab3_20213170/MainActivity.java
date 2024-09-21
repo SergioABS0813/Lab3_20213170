@@ -60,13 +60,27 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful() && response.body() != null){
-                            emailLogin.getText().clear();
-                            passwordLogin.getText().clear();
-                            String tokenInter = response.body().getToken(); //La API nos devuelve el token
+                            emailLogin.getText().clear(); //username
+                            passwordLogin.getText().clear(); //password
+                            //Extraer datos del usuario logueado:
+                            User user = response.body();
+                            String usernameLogueado = user.getUsername();
+                            String emailLogueado = user.getEmail();
+                            String genderLogueado = user.getGender();
+                            String firstNameLogueado = user.getFirstName();
+                            String lastNameLogueado = user.getLastName();
+                            String token = user.getToken(); //La API nos devuelve el token
+                            String refreshToken = user.getRefreshToken();
 
                             //Al estar logueados abrimos nueva activity
                             Intent intent = new Intent(MainActivity.this, LogueadoActivity.class);
-                            intent.putExtra("token", tokenInter); //token generado por usauario cuandi inicia sesion
+                            intent.putExtra("token", token); // Token del usuario
+                            intent.putExtra("username", usernameLogueado);
+                            intent.putExtra("email", emailLogueado);
+                            intent.putExtra("firstName", firstNameLogueado);
+                            intent.putExtra("lastName", lastNameLogueado);
+                            intent.putExtra("gender", genderLogueado);
+                            intent.putExtra("refreshToken", refreshToken);
                             startActivity(intent);
                             Toast.makeText(MainActivity.this, "Bienvenido", Toast.LENGTH_SHORT).show();
                         } else{
